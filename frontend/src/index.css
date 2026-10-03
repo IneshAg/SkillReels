@@ -816,8 +816,10 @@ body { color: var(--text); background: var(--canvas); }
 .reel-more { display: inline-flex; align-items: center; gap: 5px; margin-top: 1px; padding: 5px 11px; border: 0; border-radius: 999px; background: rgba(255,255,255,.16); color: #fff; font: 600 11px system-ui, sans-serif; cursor: pointer; backdrop-filter: blur(5px); }
 .reel-more:hover { background: rgba(255,255,255,.28); }
 
-.reel-progress { position: absolute; z-index: 4; right: 0; bottom: 0; left: 0; height: 3px; background: rgba(255,255,255,.16); }
-.reel-progress i { display: block; height: 100%; background: #d9f36a; transition: width .2s linear; }
+.reel-progress { position: absolute; z-index: 4; right: 0; bottom: 0; left: 0; height: 16px; display: flex; align-items: flex-end; }
+.reel-progress input[type="range"] { width: 100%; height: 3px; appearance: none; background: linear-gradient(to right, #d9f36a var(--progress), rgba(255,255,255,.16) var(--progress)); cursor: pointer; margin: 0; }
+.reel-progress input[type="range"]::-webkit-slider-thumb { width: 12px; height: 12px; appearance: none; border-radius: 50%; background: #d9f36a; margin-top: -4px; box-shadow: 0 0 4px rgba(0,0,0,0.5); }
+.reel-progress input[type="range"]::-moz-range-thumb { width: 12px; height: 12px; appearance: none; border-radius: 50%; border: 0; background: #d9f36a; box-shadow: 0 0 4px rgba(0,0,0,0.5); }
 
 /* ===================================================================
    Concept reel visual: a topic-relevant animated card instead of a

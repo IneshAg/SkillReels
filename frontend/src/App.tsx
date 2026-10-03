@@ -353,7 +353,25 @@ function VideoActivity({ unit, active, muted, busy, saved, liked, disliked, sign
           {shareMessage && <span className="caption-share-feedback" role="status">{shareMessage}</span>}
         </div>
         <button className={`reel-sound ${muted ? "muted" : ""}`} onClick={onMute} aria-label={muted ? "Unmute" : "Mute"} title={muted ? "Unmute" : "Mute"}><Icon name="volume" size={18} /></button>
-        <div className="reel-progress" aria-hidden="true"><i style={{ width: `${progress}%` }} /></div>
+        <div className="reel-progress" aria-hidden="true" style={{ "--progress": `${progress}%` } as React.CSSProperties}>
+          <input 
+            type="range" 
+            min="0" 
+            max="100" 
+            step="0.1" 
+            value={progress} 
+            onChange={(e) => {
+              setProgress(Number(e.target.value));
+              if (Number(e.target.value) >= 100 && !completed) {
+                setCompleted(true);
+                onComplete();
+              }
+            }}
+            onPointerDown={() => setPlaying(false)}
+            onPointerUp={() => setPlaying(true)}
+            aria-label="Seek video" 
+          />
+        </div>
       </div>
     </article>
   );
