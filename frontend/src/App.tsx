@@ -245,11 +245,6 @@ function VideoActivity({ unit, active, muted, busy, saved, liked, disliked, sign
   const skipRecorded = useRef(false);
   const wasActive = useRef(active);
   const skills = unit.task_data?.skills ?? [];
-  // Cosmetic social-feed texture: a stable like tally derived from the reel id
-  // (there is no real like data in this prototype).
-  const likeBase = useMemo(() => 420 + (([...unit.id].reduce((sum, ch) => sum + ch.charCodeAt(0), 0) * 53) % 8200), [unit.id]);
-  const likeCount = likeBase + (liked ? 1 : 0);
-  const fmtCount = (n: number) => (n >= 1000 ? `${(n / 1000).toFixed(1).replace(/\.0$/, "")}k` : `${n}`);
   const [captionOpen, setCaptionOpen] = useState(false);
   const [captionOverflow, setCaptionOverflow] = useState(false);
   const captionRef = useRef<HTMLParagraphElement>(null);
@@ -336,7 +331,7 @@ function VideoActivity({ unit, active, muted, busy, saved, liked, disliked, sign
         </button>
         <aside className="video-action-rail" aria-label="Video actions">
           <button className={`video-rail-action like-action ${liked ? "reacted" : ""}`} onClick={onLike} aria-label={liked ? "Remove like" : "Like"} aria-pressed={liked} disabled={busy}>
-            <Icon name="heart" size={26} /><span className="video-rail-count">{fmtCount(likeCount)}</span>
+            <Icon name="heart" size={26} />
           </button>
           <button className={`video-rail-action dislike-action ${disliked ? "reacted" : ""}`} onClick={onDislike} aria-label={disliked ? "Remove dislike" : "Not for me"} aria-pressed={disliked} disabled={busy}>
             <Icon name="dislike" size={23} /><span>{disliked ? "Not for me" : "Dislike"}</span>
