@@ -769,11 +769,11 @@ def get_next_recommendation(
         }
         return _recommendation(bridge, reason, "BRIDGE_RECOMMENDATION")
 
-    # Lessons never auto-follow a reel. After a same-topic watch streak, offer
+    # Lessons never auto-follow a reel. After a sustained passive streak, offer
     # a related in-app application challenge. Builds stay a later offer.
     if (
         behavior["topic"]
-        and behavior["reel_streak"] >= PRACTICE_OFFER_STREAK
+        and user.passive_streak >= PRACTICE_OFFER_STREAK
         and user.intervention_cooldown <= 0
     ):
         action_candidates = generate_action_candidates(
