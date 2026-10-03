@@ -29,9 +29,9 @@ PROGRESS_VALUE = {
     "career_exploration": 0.55,
 }
 # Prototype policy knob, not a learned or "magic" count. A clear same-topic
-# binge (8 reels in a row) is enough to offer a related practice challenge;
-# the feed nudges only after genuine consumption, and the offer stays skippable.
-PRACTICE_OFFER_STREAK = 8
+# A streak of 3 uninterrupted video completions without any quizzes
+# (Lowered for rapid hackathon demonstration)
+PRACTICE_OFFER_STREAK = 3
 
 # Which content topics belong to each career goal. Switching the declared goal
 # re-points candidate generation at that goal's topics, so the feed is remade to
