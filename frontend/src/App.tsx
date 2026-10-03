@@ -847,49 +847,6 @@ function ProgressRule({ exposure, builds }: { exposure: number; builds: number }
   </section>;
 }
 
-function TrendingPanel({ goal }: { goal: string }) {
-  const [stories, setStories] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    setLoading(true);
-    fetch(`/api/trending?user_id=u1`)
-      .then(r => r.json())
-      .then(d => { setStories(d.stories || []); setLoading(false); })
-      .catch(() => setLoading(false));
-  }, [goal]);
-
-  return (
-    <section className="surface-panel trending-panel">
-      <div className="section-heading">
-        <div>
-          <span className="section-kicker">WHAT'S HAPPENING IN TECH</span>
-          <h2>Trending for {goal}</h2>
-        </div>
-        <small style={{ color: "var(--text-quiet)", fontSize: "11px" }}>via Hacker News · live</small>
-      </div>
-      {loading ? (
-        <div className="empty-inline"><Icon name="compass" /><span>Fetching live stories…</span></div>
-      ) : stories.length === 0 ? (
-        <div className="empty-inline"><Icon name="info" /><span>No matching stories right now. Check back soon.</span></div>
-      ) : (
-        <div className="trending-list">
-          {stories.map((s) => (
-            <a key={s.id} href={s.url} target="_blank" rel="noopener noreferrer" className="trending-row">
-              <div className="trending-meta">
-                <span className="trending-score">▲ {s.score}</span>
-                <span className="trending-comments">{s.comments} comments</span>
-              </div>
-              <span className="trending-title">{s.title}</span>
-              <span className="trending-by">by {s.by}</span>
-            </a>
-          ))}
-        </div>
-      )}
-    </section>
-  );
-}
-
 function ProgressPage({ state, recommendation, onContinue , onDemo}: { state: Partial<UserState> | null; recommendation: Recommendation | null; onContinue: () => void ; onDemo?: () => void}) {
   const learner = { ...DEFAULT_STATE, ...(state ?? {}) };
   const skills = Object.entries(learner.skill_evidence ?? {}).sort((a, b) => b[1] - a[1]);
@@ -933,7 +890,13 @@ function SystemPanel({ state, recommendation, metrics, busy, onSimulate, onClose
     <section className="system-section"><span className="section-kicker">LEARNER MODEL</span><div className="system-goal"><small>Declared goal</small><strong>{learner.declared_goal}</strong></div><div className="system-stats"><div><strong>{learner.passive_streak}</strong><span>Passive streak</span></div><div><strong>{learner.recent_skip_streak}</strong><span>Recent skips</span></div><div><strong>{learner.total_items_served}</strong><span>Items served</span></div><div><strong>{learner.meaningful_actions}</strong><span>Useful actions</span></div></div></section>
     <section className="system-section"><span className="section-kicker">EVIDENCE COUNTS</span><div className="system-evidence"><div><span>Exposure</span><strong>{learner.evidence_exposure}</strong></div><div><span>Concept</span><strong>{learner.evidence_concept}</strong></div><div><span>Application</span><strong>{learner.evidence_application}</strong></div><div><span>Build</span><strong>{learner.evidence_build}</strong></div><div><span>Career exploration</span><strong>{learner.evidence_career}</strong></div></div></section>
     <ProgressRule exposure={learner.evidence_exposure ?? 0} builds={learner.evidence_build ?? 0} />
-    <section className="system-section"><span className="section-kicker">RECOMMENDATION</span><div className="system-recommendation"><span className={`policy-chip ${policy.toLowerCase()}`}>{policy.replace(/_/g, " ")}</span><strong>{recommendation?.unit?.title || "No eligible unit"}</strong><p>{recommendation?.reason?.text || "Reset or add content to continue."}</p>{recommendation?.reason?.components && <details><summary>Ranking factors</summary><div className="factor-list">{Object.entries(recommendation.reason.components).filter(([key, value]) => key !== "interaction_count" && value !== 0).map(([key, value]) => <div key={key}><span>{key.replace(/_/g, " ")}</span><strong>{typeof value === "number" ? value.toFixed(2) : value}</strong></div>)}</div></details>}</div></section>
+    <section className="system-section"><span className="section-kicker">RECOMMENDATION</span><div className="system-recommendation"><span className={`policy-chip ${policy.toLowerCase()}`}>{policy.replace(/_/g, " ")}</span><strong>{recommendation?.unit?.title || "No eligible unit"}</strong><p>{recommendation?.reason?.text || "Reset or add content to continue."}</p>{
+      (() => {
+        const comps = Object.entries(recommendation?.reason?.components || {}).filter(([key, value]) => key !== "interaction_count" && value !== 0);
+        if (!comps.length) return null;
+        return <details><summary>Ranking factors</summary><div className="factor-list">{comps.map(([key, value]) => <div key={key}><span>{key.replace(/_/g, " ")}</span><strong>{typeof value === "number" ? value.toFixed(2) : String(value)}</strong></div>)}</div></details>;
+      })()
+    }</div></section>
     <section className="system-section metric-section"><span className="section-kicker">PROGRESS, NOT SCREEN TIME</span>
       <div className="metric-grid">
         <div><strong>{metrics ? metrics.progress_score.toFixed(2) : "—"}</strong><span>progress score (evidence-weighted)</span></div>
@@ -1187,7 +1150,9 @@ export default function App() {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch(`http://localhost:8000/unit/${unit_id}`).then(r => r.json());
+      const res = await fetch(`/api/unit/${unit_id}`);
+      if (!res.ok) throw new Error("Saved activity not found.");
+      const response = await res.json();
       const mockRecommendation: Recommendation = {
         recommendation_id: "revisit-" + Date.now(),
         policy_applied: "REVISIT",
