@@ -69,7 +69,7 @@ function Icon({ name, size = 20 }: { name: IconName; size?: number }) {
 }
 
 function Logo() {
-  return <div className="brand" aria-label="MOVE"><span className="brand-mark">M<span>↗</span></span><span>MOVE</span></div>;
+  return <div className="brand" aria-label="SkillReels"><span className="brand-mark">S<span>↗</span></span><span>SkillReels</span></div>;
 }
 
 function Navigation({ active, onChange }: { active: Screen; onChange: (screen: Screen) => void }) {
@@ -99,7 +99,7 @@ function Header({ screen, state, showSystem, onToggleSystem }: {
   showSystem: boolean;
   onToggleSystem: () => void;
 }) {
-  const title = screen === "feed" ? "Your next move" : screen === "progress" ? "Your progress" : "Your profile";
+  const title = screen === "feed" ? "Your next SkillReels" : screen === "progress" ? "Your progress" : "Your profile";
   return (
     <header className="top-bar">
       <div className="mobile-brand"><Logo /></div>
@@ -156,7 +156,7 @@ function WhyPanel({ recommendation, state, onClose }: {
   return (
     <div className="modal-scrim" onMouseDown={onClose}>
       <section className="why-panel" role="dialog" aria-modal="true" aria-labelledby="why-title" onMouseDown={(event) => event.stopPropagation()}>
-        <div className="panel-heading"><div><span className="section-kicker">RECOMMENDATION REASON</span><h2 id="why-title">Why this move?</h2></div><button className="icon-button" onClick={onClose} aria-label="Close"><Icon name="close" /></button></div>
+        <div className="panel-heading"><div><span className="section-kicker">RECOMMENDATION REASON</span><h2 id="why-title">Why this SkillReels?</h2></div><button className="icon-button" onClick={onClose} aria-label="Close"><Icon name="close" /></button></div>
         <p className="why-copy">{reason?.text || "This activity is available for your current learning path."}</p>
         <div className="why-context">
           <div><span>Your goal</span><strong>{state?.declared_goal || DEFAULT_STATE.declared_goal}</strong></div>
@@ -188,7 +188,7 @@ function ActionRow({ onSkip, onWhy, busy, children, showWhy = true, showSkip = t
 function LearningTrail({ unit }: { unit: ContentUnit }) {
   const steps = ["SEE", "LEARN", "TRY", "BUILD"];
   const current = unit.type === "video" ? 0 : unit.type === "lesson" ? 1 : unit.evidence_type === "build" ? 3 : 2;
-  return <div className="learning-trail" aria-label={`MOVE learning stage: ${steps[current]}`}>
+  return <div className="learning-trail" aria-label={`SkillReels learning stage: ${steps[current]}`}>
     {steps.map((step, index) => <span key={step} className={index === current ? "current" : index < current ? "passed" : ""}><i>0{index + 1}</i>{step}</span>)}
   </div>;
 }
@@ -302,7 +302,7 @@ function VideoActivity({ unit, active, muted, busy, saved, liked, disliked, sign
     onLearnMore(unit.id);
   };
   const share = async () => {
-    const text = `${unit.title} — ${unit.task_data?.description || "A short idea from MOVE."}`;
+    const text = `${unit.title} — ${unit.task_data?.description || "A short idea from SkillReels."}`;
     try {
       if (navigator.share) {
         await navigator.share({ title: unit.title, text });
@@ -345,7 +345,7 @@ function VideoActivity({ unit, active, muted, busy, saved, liked, disliked, sign
           <button className="video-rail-action" onClick={onWhy} aria-label="Why this reel?"><Icon name="info" size={22} /><span>Why this?</span></button>
         </aside>
         <div className="reel-caption">
-          <div className="reel-handle"><span className="reel-handle-mark">M</span><strong>move</strong><span className="reel-handle-topic">· {String(unit.task_data?.topic || "learn").replace(/_/g, " ")}</span></div>
+          <div className="reel-handle"><span className="reel-handle-mark">M</span><strong>SkillReels</strong><span className="reel-handle-topic">· {String(unit.task_data?.topic || "learn").replace(/_/g, " ")}</span></div>
           <p ref={captionRef} className={`reel-caption-text ${captionOpen ? "is-open" : ""}`}><strong>{unit.title}.</strong> {unit.task_data?.description || "A short concept toward your goal."}</p>
           {(captionOverflow || captionOpen) && <button className="caption-toggle" onClick={() => setCaptionOpen((open) => !open)}>{captionOpen ? "show less" : "more"}</button>}
           {skills.length > 0 && <div className="reel-hashtags">{skills.slice(0, 2).map((skill: string) => <span key={skill}>#{String(skill).replace(/\s+/g, "")}</span>)}</div>}
@@ -372,7 +372,7 @@ function LessonActivity({ unit, busy, onComplete, onSkip, onWhy }: {
       <span className="lesson-art-index">{String(stepIndex + 1).padStart(2, "0")} <i>/</i> {String(steps.length).padStart(2, "0")}</span>
       <div className="lesson-art-orbit orbit-one" /><div className="lesson-art-orbit orbit-two" />
       <div className="lesson-art-note"><small>{step?.visual_label || "THE IDEA"}</small><strong>{step?.visual_value || "INPUT → OUTPUT"}</strong></div>
-      <div className="lesson-art-stamp">MOVE<br /><span>TO<br />KNOW</span></div>
+      <div className="lesson-art-stamp">SkillReels<br /><span>TO<br />KNOW</span></div>
       <div className="lesson-art-bottom"><span>FIELD NOTES</span><span>{(data.skills ?? []).join(" · ")}</span></div>
     </div>
     <div className="lesson-copy">
@@ -579,7 +579,7 @@ function BuildTask({ unit, busy, onComplete }: { unit: ContentUnit; busy: boolea
           {tested && endpointWorks && <span className="endpoint-pass"><Icon name="check" size={15} />Route returns the user collection.</span>}
         </div>
       </div>
-      <small className="action-hint">You stay in MOVE. A successful request preview is required before this counts as build evidence.</small>
+      <small className="action-hint">You stay in SkillReels. A successful request preview is required before this counts as build evidence.</small>
     </div>
   );
 
@@ -610,7 +610,7 @@ function BuildTask({ unit, busy, onComplete }: { unit: ContentUnit; busy: boolea
           {testedUI && uiWorks && <span className="endpoint-pass"><Icon name="check" size={15} />Component is reactive. Try clicking it!</span>}
         </div>
       </div>
-      <small className="action-hint">You stay in MOVE. A successful render is required before this counts as build evidence.</small>
+      <small className="action-hint">You stay in SkillReels. A successful render is required before this counts as build evidence.</small>
     </div>
   );
 
@@ -683,7 +683,7 @@ function ChallengeActivity({ unit, state, busy, game, onComplete, onContinue, on
 
   return (
     <article className={`activity-card challenge-card game-challenge ${unit.type === "career_action" ? "career-card" : ""}`}>
-      <div className="challenge-side"><div className="challenge-side-top"><span className="challenge-index">MOVE / {String(unit.difficulty).padStart(2, "0")}</span><GameHud game={game} /></div><div className="challenge-graphic"><div className="graphic-ring ring-one" /><div className="graphic-ring ring-two" /><div className="graphic-core"><Icon name={unit.type === "career_action" ? "briefcase" : unit.evidence_type === "build" ? "spark" : "code"} size={30} /></div></div><div><span className="section-kicker">{unit.type === "career_action" ? "CONNECT TO A CAREER" : unit.evidence_type === "build" ? "MAKE SOMETHING" : "ACTIVE PRACTICE"}</span><h2>{unit.title}</h2><p>{unit.type === "career_action" ? "Explore where your learning could take you." : "A short action turns the idea into evidence."}</p></div><div className="challenge-side-footer">{skills.length > 0 && <div className="skill-tags">{skills.map((skill) => <span key={skill}>{skill}</span>)}</div>}</div></div>
+      <div className="challenge-side"><div className="challenge-side-top"><span className="challenge-index">SkillReels / {String(unit.difficulty).padStart(2, "0")}</span><GameHud game={game} /></div><div className="challenge-graphic"><div className="graphic-ring ring-one" /><div className="graphic-ring ring-two" /><div className="graphic-core"><Icon name={unit.type === "career_action" ? "briefcase" : unit.evidence_type === "build" ? "spark" : "code"} size={30} /></div></div><div><span className="section-kicker">{unit.type === "career_action" ? "CONNECT TO A CAREER" : unit.evidence_type === "build" ? "MAKE SOMETHING" : "ACTIVE PRACTICE"}</span><h2>{unit.title}</h2><p>{unit.type === "career_action" ? "Explore where your learning could take you." : "A short action turns the idea into evidence."}</p></div><div className="challenge-side-footer">{skills.length > 0 && <div className="skill-tags">{skills.map((skill) => <span key={skill}>{skill}</span>)}</div>}</div></div>
       <div className="challenge-main">{task}{done ? <button className="primary-button continue-button" onClick={onContinue}>Continue<Icon name="arrow" size={17} /></button> : null}<ActionRow onSkip={onSkip} onWhy={onWhy} busy={busy} showSkip={!done}><span className="challenge-spacer" /></ActionRow></div>
     </article>
   );
@@ -701,7 +701,7 @@ function InterventionOffer({ recommendation, onTry, onSkip, onWhy, busy }: {
       <h1>{title}</h1>
       <p>{recommendation.reason.text}</p>
       <div className="intervention-suggestion"><div><small>SUGGESTED NEXT</small><strong>{recommendation.unit?.title}</strong></div><span>{Math.max(1, Math.round((recommendation.unit?.task_data?.duration_seconds ?? 120) / 60))} min</span></div>
-      <div className="intervention-actions"><button className="primary-button" onClick={onTry}>Try this move<Icon name="arrow" size={17} /></button><button className="text-action" onClick={onSkip} disabled={busy}>Keep exploring</button><button className="why-link" onClick={onWhy}><Icon name="info" size={16} />Why now?</button></div>
+      <div className="intervention-actions"><button className="primary-button" onClick={onTry}>Try this SkillReels<Icon name="arrow" size={17} /></button><button className="text-action" onClick={onSkip} disabled={busy}>Keep exploring</button><button className="why-link" onClick={onWhy}><Icon name="info" size={16} />Why now?</button></div>
       <small className="noncoercive-note">Your feed stays yours. You can skip this suggestion.</small>
     </article>
   );
@@ -748,12 +748,12 @@ function FeedPage({ queue, state, busyUnit, saved, reactions, muted, game, onSav
         onWhy: () => onWhy(recommendation),
       };
       return <section className={`feed-page ${unit.type === "video" ? "reel-feed-page" : ""}`} data-active={active ? "true" : "false"} data-recommendation-id={recommendation.recommendation_id} key={recommendation.recommendation_id}>
-        {unit.type !== "video" && <div className="feed-page-heading"><div className="feed-heading-main"><span className="section-kicker">{recommendation.policy_applied === "EXPLORATION" ? "A NEW DIRECTION" : recommendation.policy_applied === "GUIDED_PATH" ? "CONTINUING YOUR PATH" : recommendation.policy_applied === "BRIDGE_RECOMMENDATION" ? "CONNECTING YOUR INTERESTS" : recommendation.policy_applied === "INTERVENTION_OFFERED" ? "A MOMENT FOR PRACTICE" : "PERSONALIZED FOR YOU"}</span><LearningTrail unit={unit} /></div><div className="feed-page-tools"><span className="feed-sequence">MOVE / {String(index + 1).padStart(2, "0")}</span><SaveButton saved={saved.has(unit.id)} onClick={() => onSave(unit)} /></div></div>}
+        {unit.type !== "video" && <div className="feed-page-heading"><div className="feed-heading-main"><span className="section-kicker">{recommendation.policy_applied === "EXPLORATION" ? "A NEW DIRECTION" : recommendation.policy_applied === "GUIDED_PATH" ? "CONTINUING YOUR PATH" : recommendation.policy_applied === "BRIDGE_RECOMMENDATION" ? "CONNECTING YOUR INTERESTS" : recommendation.policy_applied === "INTERVENTION_OFFERED" ? "A MOMENT FOR PRACTICE" : "PERSONALIZED FOR YOU"}</span><LearningTrail unit={unit} /></div><div className="feed-page-tools"><span className="feed-sequence">SkillReels / {String(index + 1).padStart(2, "0")}</span><SaveButton saved={saved.has(unit.id)} onClick={() => onSave(unit)} /></div></div>}
         {isOptionalOffer ? <InterventionOffer recommendation={recommendation} onTry={() => { const target = document.getElementById(`activity-${recommendation.recommendation_id}`); target?.classList.add("intervention-accepted"); requestAnimationFrame(() => target?.scrollIntoView({ behavior: "smooth", block: "center" })); }} onSkip={common.onSkip} onWhy={common.onWhy} busy={busy} /> : null}
         <div id={`activity-${recommendation.recommendation_id}`} className={isOptionalOffer ? "activity-reveal" : "activity-reveal open"}>
           {unit.type === "video" ? <VideoActivity {...common} active={active} saved={saved.has(unit.id)} liked={reactions[unit.id] === "liked"} disliked={reactions[unit.id] === "disliked"} signalNote={recommendation.reason.surface_note} onLike={() => onReaction(unit.id, "liked")} onDislike={() => onReaction(unit.id, "disliked")} onShare={() => onEvent(unit.id, "SHARED")} onSave={() => onSave(unit)} muted={muted} onMute={onMute} onComplete={() => onEvent(unit.id, "WATCH_COMPLETED")} onNextReel={(type) => onAdvance(unit.id, type, nextRecommendation?.recommendation_id)} onLearnMore={onLearnMore} /> : unit.type === "lesson" ? <LessonActivity unit={unit} busy={busy} onComplete={() => onEvent(unit.id, "LESSON_COMPLETED")} onSkip={common.onSkip} onWhy={common.onWhy} /> : unit.type === "quiz" ? <QuizActivity unit={unit} busy={busy} game={game} onAnswer={async (correct) => onEvent(unit.id, correct ? "TASK_COMPLETED" : "TASK_FAILED")} onContinue={() => onContinue(unit.id)} onSkip={common.onSkip} onWhy={common.onWhy} /> : <ChallengeActivity unit={unit} state={state} busy={busy} game={game} onComplete={() => onEvent(unit.id, "TASK_COMPLETED")} onContinue={() => onContinue(unit.id)} onFailure={() => onEvent(unit.id, "TASK_FAILED")} onSkip={common.onSkip} onWhy={common.onWhy} />}
         </div>
-        {unit.type !== "video" && <div className="feed-page-bottom"><span className={readingPause && active ? "reading-pause" : ""} role={readingPause && active ? "status" : undefined} aria-live={readingPause && active ? "polite" : undefined}><Icon name={readingPause && active ? "pause" : "compass"} size={15} />{readingPause && active ? "Take a moment to read the feedback." : "One useful move at a time"}</span><button onClick={common.onWhy}><Icon name="info" size={15} />How this was chosen</button></div>}
+        {unit.type !== "video" && <div className="feed-page-bottom"><span className={readingPause && active ? "reading-pause" : ""} role={readingPause && active ? "status" : undefined} aria-live={readingPause && active ? "polite" : undefined}><Icon name={readingPause && active ? "pause" : "compass"} size={15} />{readingPause && active ? "Take a moment to read the feedback." : "One useful SkillReels at a time"}</span><button onClick={common.onWhy}><Icon name="info" size={15} />How this was chosen</button></div>}
       </section>;
     })}
   </div>;
@@ -881,7 +881,7 @@ function ProgressPage({ state, recommendation, onContinue , onDemo}: { state: Pa
     <ProgressPath state={learner as UserState} />
     <ProgressRule exposure={learner.evidence_exposure ?? 0} builds={learner.evidence_build ?? 0} />
     <div className="progress-panels"><section className="surface-panel"><div className="section-heading"><div><span className="section-kicker">SKILL EVIDENCE</span><h2>What you've practiced</h2></div><span className="quiet-count">{skills.length} skills</span></div>{skills.length ? <div className="skill-evidence-list">{skills.map(([name, count]) => <div className="skill-evidence-row" key={name}><div><span>{name}</span><small>{count} completed {count === 1 ? "activity" : "activities"}</small></div><span className="evidence-level">{count >= 3 ? "Repeated" : count === 2 ? "Applied" : "Started"}</span></div>)}</div> : <div className="empty-inline"><Icon name="code" /><span>Complete a quiz or practice task to begin building skill evidence.</span></div>}</section>
-      <section className="surface-panel interest-panel"><span className="section-kicker">OBSERVED INTERESTS</span><h2>Topics shaping your feed</h2>{interests.length ? <div className="interest-chips">{interests.map(([interest, score]) => <span key={interest}>{interest}<small>{Math.round(score * 100)}%</small></span>)}</div> : <div className="empty-inline"><Icon name="compass" /><span>MOVE will learn from what you choose, complete, and skip.</span></div>}<div className="progress-note"><Icon name="info" size={16} /><span>These are prototype signals inferred from your activity, not a validated measure of ability.</span></div></section></div>
+      <section className="surface-panel interest-panel"><span className="section-kicker">OBSERVED INTERESTS</span><h2>Topics shaping your feed</h2>{interests.length ? <div className="interest-chips">{interests.map(([interest, score]) => <span key={interest}>{interest}<small>{Math.round(score * 100)}%</small></span>)}</div> : <div className="empty-inline"><Icon name="compass" /><span>SkillReels will learn from what you choose, complete, and skip.</span></div>}<div className="progress-note"><Icon name="info" size={16} /><span>These are prototype signals inferred from your activity, not a validated measure of ability.</span></div></section></div>
     
     <section className="surface-panel demo-panel" style={{ borderColor: "var(--violet)", marginBottom: "20px" }}><div className="section-heading"><div><span className="section-kicker" style={{ color: "var(--violet)" }}>JUDGE DEMO</span><h2>Live Execution Environment</h2></div></div><p style={{ fontSize: "13px", color: "var(--text-quiet)", marginBottom: "16px" }}>Skip the feed and directly launch the interactive build sandbox, where learners construct and test live code without ever leaving the app.</p><button className="primary-button" style={{ background: "var(--violet)", color: "#11140f", borderColor: "var(--violet)" }} onClick={onDemo}>Launch Build Sandbox</button></section><section className="next-step-panel"><div><span className="section-kicker">NEXT RECOMMENDATION</span><h2>{recommendation?.unit?.title || "Your next path is ready"}</h2><p>{recommendation?.reason?.text || "Continue exploring activities to build a clearer learner profile."}</p></div><button className="primary-button" onClick={onContinue}>Go to feed<Icon name="arrow" size={17} /></button></section>
   </div>;
@@ -890,10 +890,10 @@ function ProgressPage({ state, recommendation, onContinue , onDemo}: { state: Pa
 function ProfilePage({ state, saved, onOpenFeed, onChangeGoal, onRevisit }: { state: Partial<UserState> | null; saved: SavedUnit[]; onOpenFeed: () => void; onChangeGoal: (goal: string) => void; onRevisit: (unit_id: string) => void }) {
   const learner = { ...DEFAULT_STATE, ...(state ?? {}) };
   const interests = Object.entries(learner.observed_interests ?? {}).filter(([, score]) => score > 0.05).sort((a, b) => b[1] - a[1]).slice(0, 5);
-  return <div className="product-page profile-page"><div className="page-intro"><span className="section-kicker">YOUR DIRECTION</span><h1>A path shaped by you.</h1><p>Your declared goal gives the feed direction. Your activity helps MOVE find a useful route toward it.</p></div>
+  return <div className="product-page profile-page"><div className="page-intro"><span className="section-kicker">YOUR DIRECTION</span><h1>A path shaped by you.</h1><p>Your declared goal gives the feed direction. Your activity helps SkillReels find a useful route toward it.</p></div>
     <section className="profile-direction"><span className="profile-avatar">{(learner.declared_goal || "M").split(/\s+/).map((part) => part[0]).join("").slice(0, 2).toUpperCase()}</span><div className="profile-direction-main"><span className="section-kicker">CURRENT GOAL</span><h2>{learner.declared_goal}</h2><p>Pick a different direction anytime - the feed re-ranks around it. Your observed interests stay separate.</p><div className="goal-picker">{GOAL_OPTIONS.map((goal) => <button key={goal} className={`goal-option ${learner.declared_goal === goal ? "active" : ""}`} onClick={() => onChangeGoal(goal)}>{goal}</button>)}</div></div><span className="direction-tag"><Icon name="briefcase" size={15} />In progress</span></section>
     <div className="progress-panels profile-panels"><section className="surface-panel"><span className="section-kicker">INTEREST SIGNALS</span><h2>What has caught your attention</h2>{interests.length ? <div className="interest-chips">{interests.map(([interest, score]) => <span key={interest}>{interest}<small>{Math.round(score * 100)}%</small></span>)}</div> : <p className="muted-paragraph">Your interest profile will take shape as you watch, try, and skip activities.</p>}</section><section className="surface-panel"><span className="section-kicker">ACTIVITY SUMMARY</span><h2>Progress so far</h2><div className="profile-summary"><div><strong>{learner.evidence_exposure}</strong><span>Exposure</span></div><div><strong>{learner.meaningful_actions}</strong><span>Useful actions</span></div><div><strong>{learner.task_failures}</strong><span>Attempts to retry</span></div></div></section></div>
-    <section className="surface-panel saved-panel"><div className="section-heading"><div><span className="section-kicker">SAVED FOR LATER</span><h2>Moves to revisit</h2></div><button className="plain-link" onClick={onOpenFeed}>Explore feed<Icon name="arrow" size={16} /></button></div>{saved.length ? <div className="saved-list">{saved.map((item) => <button key={item.id} className="saved-row" onClick={() => onRevisit(item.id)}><span className="saved-type-icon"><Icon name={item.type === "video" ? "play" : item.type === "career_action" ? "briefcase" : "code"} size={17} /></span><div className="saved-row-text"><strong>{item.title}</strong><small>{item.type.replace(/_/g, " ")} · {item.evidence_type.replace(/_/g, " ")}</small></div></button>)}</div> : <div className="empty-inline"><Icon name="bookmark" /><span>Save a video, quiz, or challenge to keep it here.</span></div>}</section>
+    <section className="surface-panel saved-panel"><div className="section-heading"><div><span className="section-kicker">SAVED FOR LATER</span><h2>Activities to revisit</h2></div><button className="plain-link" onClick={onOpenFeed}>Explore feed<Icon name="arrow" size={16} /></button></div>{saved.length ? <div className="saved-list">{saved.map((item) => <button key={item.id} className="saved-row" onClick={() => onRevisit(item.id)}><span className="saved-type-icon"><Icon name={item.type === "video" ? "play" : item.type === "career_action" ? "briefcase" : "code"} size={17} /></span><div className="saved-row-text"><strong>{item.title}</strong><small>{item.type.replace(/_/g, " ")} · {item.evidence_type.replace(/_/g, " ")}</small></div></button>)}</div> : <div className="empty-inline"><Icon name="bookmark" /><span>Save a video, quiz, or challenge to keep it here.</span></div>}</section>
   </div>;
 }
 
@@ -959,11 +959,11 @@ export default function App() {
   const [game, setGame] = useState({ streak: 0, best: 0, points: 0 });
   const [servedIds, setServedIds] = useState<Set<string>>(new Set());
   const [saved, setSaved] = useState<SavedUnit[]>(() => {
-    try { return JSON.parse(localStorage.getItem("move-saved-units") || "[]") as SavedUnit[]; }
+    try { return JSON.parse(localStorage.getItem("SkillReels-saved-units") || "[]") as SavedUnit[]; }
     catch { return []; }
   });
   const [reactions, setReactions] = useState<Record<string, Reaction>>(() => {
-    try { return JSON.parse(localStorage.getItem("move-reactions") || "{}") as Record<string, Reaction>; }
+    try { return JSON.parse(localStorage.getItem("SkillReels-reactions") || "{}") as Record<string, Reaction>; }
     catch { return {}; }
   });
   const feedRef = useRef<HTMLDivElement>(null);
@@ -1011,7 +1011,7 @@ export default function App() {
   }, [queue, loadFeed]);
 
   useEffect(() => {
-    localStorage.setItem("move-reactions", JSON.stringify(reactions));
+    localStorage.setItem("SkillReels-reactions", JSON.stringify(reactions));
   }, [reactions]);
 
   useEffect(() => {
@@ -1198,7 +1198,7 @@ export default function App() {
       const next = exists
         ? current.filter((item) => item.id !== unit.id)
         : [...current, { id: unit.id, title: unit.title, type: unit.type, evidence_type: unit.evidence_type }];
-      localStorage.setItem("move-saved-units", JSON.stringify(next));
+      localStorage.setItem("SkillReels-saved-units", JSON.stringify(next));
       return next;
     });
   };
@@ -1216,7 +1216,7 @@ export default function App() {
         {error && <div className="error-banner" role="alert"><span>{error}</span><button onClick={() => setError(null)} aria-label="Dismiss error"><Icon name="close" size={16} /></button></div>}
         <div className={`workspace-body ${showSystem ? "with-system" : ""}`}>
           <section className="primary-pane" ref={feedRef}>
-            {screen === "feed" && (loading && !queue.length ? <div className="loading-state"><span className="loading-spinner" /><p>Finding your next move...</p></div> : !activeRecommendation?.unit ? <EmptyFeed error={error} onRetry={() => void loadFeed()} onReset={() => void handleScenario("reset")} busy={loading} /> : <FeedPage queue={queue} state={state} busyUnit={loading ? "__all__" : busyUnit} saved={new Set(saved.map((item) => item.id))} reactions={reactions} muted={muted} game={game} onSave={toggleSave} onMute={() => setMuted((value) => !value)} onEvent={(id, type) => void handleEvent(id, type)} onAdvance={handleAdvance} onContinue={handleContinue} onServed={recordServed} onReaction={handleReaction} onWhy={setWhyRecommendation} onLearnMore={(id) => void handleLearningOnDemand(id)} servedIds={readyServedIds} readingPause={readingPause} />)}
+            {screen === "feed" && (loading && !queue.length ? <div className="loading-state"><span className="loading-spinner" /><p>Finding your next SkillReels...</p></div> : !activeRecommendation?.unit ? <EmptyFeed error={error} onRetry={() => void loadFeed()} onReset={() => void handleScenario("reset")} busy={loading} /> : <FeedPage queue={queue} state={state} busyUnit={loading ? "__all__" : busyUnit} saved={new Set(saved.map((item) => item.id))} reactions={reactions} muted={muted} game={game} onSave={toggleSave} onMute={() => setMuted((value) => !value)} onEvent={(id, type) => void handleEvent(id, type)} onAdvance={handleAdvance} onContinue={handleContinue} onServed={recordServed} onReaction={handleReaction} onWhy={setWhyRecommendation} onLearnMore={(id) => void handleLearningOnDemand(id)} servedIds={readyServedIds} readingPause={readingPause} />)}
             {screen === "progress" && <ProgressPage state={state} recommendation={activeRecommendation} onContinue={() => setScreen("feed")} onDemo={() => handleRevisit(state?.declared_goal?.toLowerCase().includes("frontend") ? "fe_build_01" : "api_04")} />}
             {screen === "profile" && <ProfilePage state={state} saved={saved} onOpenFeed={() => setScreen("feed")} onChangeGoal={(goal) => void handleChangeGoal(goal)} onRevisit={handleRevisit} />}
           </section>

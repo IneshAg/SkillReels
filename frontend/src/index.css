@@ -378,7 +378,7 @@ button:disabled { cursor: not-allowed; opacity: 0.55; }
   .video-stage { min-height: 360px; }.challenge-side { min-height: 400px; }
 }
 
-/* MOVE's visual language: an engineer's field journal, not a generic social UI. */
+/* SkillReels's visual language: an engineer's field journal, not a generic social UI. */
 :root {
   color: #f2efe3;
   background: #11140f;
